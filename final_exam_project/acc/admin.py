@@ -5,7 +5,6 @@ from django.contrib.auth.forms import UserCreationForm
 
 from final_exam_project.acc.forms import ProjectUserChangeForm, ProjectUserCreation
 
-# Register your models here.
 UserModel = get_user_model()
 
 
