@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% block main_content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Fantasy Books Catalog</title>
+    <style>
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+}
+
+#catalogue {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.book {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.book img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.book h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.book p {
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.like-section,
+.comment-section {
+    margin-top: 20px;
+}
+
+.like-button,
+.comment-button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.like-count {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.comment-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.comments {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.details-buttons {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.details-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.details-btn:hover {
+    background-color: #45a049;
+}
+
+.upload-link {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 10px 0;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.upload-link:hover {
+    background-color: #45a049;
+}
+
+
+    </style>
+</head>
+<body>
+<section id="catalogue">
+    <h1> Liked books</h1>
+    {% for book in books %}
+        {% for like in book.liking_books.all %}
+                    {% if request.user.id == like.user_id%}
+
+
+            <div class="book">
+                <div class="image-wrap">
+                    <img src="{{ book.picture }}" alt="{{ book.title }}">
+                </div>
+                <h3>{{ book.title }}</h3>
+                <p>{{ book.description }}</p>
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>Price:</strong> {{ book.price }} $</p>
+                <h3>Uploaded by</h3>
+<a href="{% url 'profile_details' book.user.pk %}" class="details-btn">{{ book.user }}</a>
+
+            <form method="post" action="{% url 'add_comment' book.pk%}">
+                {% csrf_token %}
+                <textarea name="text"></textarea> <!-- Make sure the name attribute matches 'text' -->
+                <button type="submit">Comment</button>
+            </form>
+
+                    <div class="details-buttons">
+            <a href="{% url 'book_details' book.pk %}" class="details-btn">Details</a>
+        </div>
+    </div>
+                {% endif %}
+    {% endfor %}
+    {% endfor %}
+</section>
+
+
+{%  endblock %}
