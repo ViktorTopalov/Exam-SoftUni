@@ -45,3 +45,9 @@ class Like(models.Model):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='liking_books')
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class BookSaved(models.Model):
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='saving_books')
+    created_at = models.DateTimeField(auto_now_add=True)
