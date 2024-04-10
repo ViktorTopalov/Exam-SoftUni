@@ -162,6 +162,11 @@ h1 {
                 {% csrf_token %}
                 <button type="submit">Like</button>
             </form>
+        
+          <form method="post" action="{% url 'save_book' book.pk%}">
+                {% csrf_token %}
+                <button type="submit">Save</button>
+            </form>
 
 
             <form method="post" action="{% url 'add_comment' book.pk%}">
