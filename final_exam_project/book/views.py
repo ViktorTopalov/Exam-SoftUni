@@ -1,16 +1,12 @@
-from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic as views
 
 from final_exam_project.book.forms import CreateBookForm, EditBookForm, DeleteBookForm
-from final_exam_project.book.models import Book, Comment, Like
-from final_exam_project.profile.models import Profile
+from final_exam_project.book.models import Book, Comment, Like, BookSaved
 
 
-# Create your views here.
-def get_profile():
-    return Profile.objects.first()
+
 
 
 # Create your views here.
@@ -41,6 +37,12 @@ def liked_books(request):
     return render(request, 'home/books_liked.html', {'books': books})
 
 
+def saved_books(request):
+    books = Book.objects.all()
+
+    return render(request, 'home/books_saved.html', {'books': books})
+
+
 def uploaded_books(request):
     books = Book.objects.all()
 
@@ -51,13 +53,26 @@ def like_book(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
     user = request.user
 
-
     if Like.objects.filter(book=book, user=user).exists():
         Like.objects.filter(book=book, user=user).delete()
         liked = False
     else:
         Like.objects.create(book=book, user=user)
         liked = True
+
+    return redirect('book_details', pk=book_id)
+
+
+def save_book(request, book_id):
+    book = get_object_or_404(Book, pk=book_id)
+    user = request.user
+
+    if BookSaved.objects.filter(book=book, user=user).exists():
+        BookSaved.objects.filter(book=book, user=user).delete()
+        saved = False
+    else:
+        BookSaved.objects.create(book=book, user=user)
+        saved = True
 
     return redirect('book_details', pk=book_id)
 
