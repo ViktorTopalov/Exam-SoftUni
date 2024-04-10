@@ -80,9 +80,7 @@
 
 
 
-                <p>Curent User ID: {{ request.user }}</p>
-                <p>User ID: {{ object.user }}</p>
-                <p>Book ID: {{  object.user}}</p>
+  
             
                 {% if object.pk == request.user.pk  or request.user.is_staff%}
                 <a href="{% url 'edit_profile' pk=object.pk %}" class="edit-button">Edit</a>
