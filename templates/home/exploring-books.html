@@ -158,6 +158,8 @@ h1 {
 
 
 
+         {% if  request.user.is_authenticated %}
+
          <form method="post" action="{% url 'like_book' book.pk%}">
                 {% csrf_token %}
                 <button type="submit">Like</button>
@@ -174,6 +176,7 @@ h1 {
                 <textarea name="text"></textarea> <!-- Make sure the name attribute matches 'text' -->
                 <button type="submit">Comment</button>
             </form>
+            {% endif %}
 
                     <div class="details-buttons">
             <a href="{% url 'book_details' book.pk %}" class="details-btn">Details</a>
